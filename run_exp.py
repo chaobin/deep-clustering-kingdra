@@ -4,12 +4,14 @@ import sys
 from kingdra_cluster.unsup_metrics import ACC
 from kingdra_cluster.kingdra_cluster import KingdraCluster
 import warnings
-from keras.backend.tensorflow_backend import set_session
+# from keras.backend.tensorflow_backend import set_session
+
+from keras.backend import set_session
 import tensorflow as tf
 
-config = tf.ConfigProto()
+config = tf.compat.v1.ConfigProto()
 config.gpu_options.allow_growth = True
-set_session(tf.Session(config=config))
+set_session(tf.compat.v1.Session(config=config))
 
 warnings.filterwarnings("ignore", category=DeprecationWarning)
 
@@ -31,6 +33,8 @@ def callback(it, y_pred_e, models):
 
 
 m.fit(X, callback=callback)
+
+model.save_weights('./model.mnist.trained')
 
 preds_2 = m.predict(X)
 

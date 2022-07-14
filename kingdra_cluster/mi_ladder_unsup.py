@@ -102,7 +102,7 @@ def get_mi_ladder_model(inp_dim,
     tot_loss = ladder_loss_w*ladder_cost + mi_loss_w * \
         (mi_loss_clean + mi_loss_corr) + noise_kl_w*noise_kl
 
-    optimizer = keras.optimizers.Adam(lr=lr)
+    optimizer = tf.keras.optimizers.Adam(lr=lr)
 
     te_model = Model(inp_sup, clean_p_sup)
     model = Model([inp, inp_sup], corr_p_sup)

@@ -92,7 +92,7 @@ class G_Guass(Layer):
 
 
 def add_noise(inputs, noise_std):
-    return Lambda(lambda x: x + tf.random_normal(tf.shape(x)) * noise_std)(inputs)
+    return Lambda(lambda x: x + tf.random.normal(tf.shape(x)) * noise_std)(inputs)
 
 
 def batch_normalization(batch, mean=None, var=None):
