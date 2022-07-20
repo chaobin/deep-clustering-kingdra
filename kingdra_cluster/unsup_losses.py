@@ -8,19 +8,19 @@ import tensorflow as tf
 
 
 def entropy(p):
-    return -tf.reduce_sum(p * tf.math.log(p + 1e-16), axis=1)
+    return -tf.reduce_sum(p * tf.log(p + 1e-16), axis=1)
 
 
 def compute_kld(p_logit, q_logit):
     p = tf.nn.softmax(p_logit)
     q = tf.nn.softmax(q_logit)
-    return tf.reduce_sum(p*(tf.math.log(p + 1e-16) - tf.math.log(q + 1e-16)), axis=1)
+    return tf.reduce_sum(p*(tf.log(p + 1e-16) - tf.log(q + 1e-16)), axis=1)
 
 
 def mut_inf_loss(p_logit, mu):
     p = tf.nn.softmax(p_logit)
     p_ave = tf.reduce_mean(p, axis=0)
-    loss_eq2 = -tf.reduce_sum(p_ave * tf.math.log(p_ave + 1e-16))
+    loss_eq2 = -tf.reduce_sum(p_ave * tf.log(p_ave + 1e-16))
     loss_eq1 = tf.reduce_mean(entropy(p))
     loss_eq = loss_eq1 - mu * loss_eq2
     return loss_eq
@@ -65,7 +65,7 @@ def eye_dot_loss(p_logit, p_logit2, l='mse'):
 
 def random_noise_loss(x, ul_logits):
 
-    d = tf.random.normal(shape=tf.shape(x))
+    d = tf.random_normal(shape=tf.shape(x))
     d /= (tf.reshape(tf.sqrt(tf.reduce_sum(tf.pow(d, 2.0), axis=1)),
                      [-1, 1]) + 1e-16)
     ul_logits = tf.stop_gradient(ul_logits)
@@ -92,7 +92,7 @@ def zero(a, b):
 
 
 def virtual_randnoise_loss(x, ul_logits, enc, rnd_std_dev=0.5):
-    r_vadv = rnd_std_dev*tf.random.normal(shape=tf.shape(x))
+    r_vadv = rnd_std_dev*tf.random_normal(shape=tf.shape(x))
     ul_logits = tf.stop_gradient(ul_logits)
     y1 = ul_logits
     y2 = enc(x + r_vadv)

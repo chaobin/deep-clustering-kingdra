@@ -1,4 +1,5 @@
 import numpy as np
+import ipdb
 import os
 import json
 import sys
@@ -33,10 +34,9 @@ def callback(it, y_pred_e, models):
     print("Clustering accuracy at  iteration ", it, ACC(gt,  y_pred_e))
 
 
-m.fit(X, callback=callback)
+m.load_weights(f"./trained/{NAME_TYPE}.trained")
 preds_2 = m.predict(X)
 
-m.save_weights(f"./{NAME_TYPE}.trained")
-
+ipdb.set_trace()
 
 print("Clustering Accuracy: ", ACC(gt,  preds_2))

@@ -171,7 +171,7 @@ class KingdraCluster(object):
     def load_weights(self, path):
 
         inp_l = int(np.load(path + "inp_len.npy"))
-        inp_l = int(np.load(path + "n_en.npy"))
+        n_en = int(np.load(path + "n_en.npy"))
 
         model_args = self.model_args
 
